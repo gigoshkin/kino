@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { getSearchResults } from '../api/client';
+import { getSearchResults } from '../api/movies';
 import useDebounce from '../hooks/useDebounce';
 import { ClearIcon, MagnifyingGlassIcon } from './icons';
 import SearchResults from './SearchResults';

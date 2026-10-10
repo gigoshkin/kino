@@ -74,7 +74,7 @@ function Price({ movie }) {
 function ResultRow({ movie, query, onSelect }) {
   return (
     <Link
-      to={`/movie/${movie.id}`}
+      to={`/movie/${movie.slug}`}
       onClick={onSelect}
       className="flex h-18 w-full items-center gap-3.5 rounded-[10px] py-2 pl-2.5 pr-5 hover:bg-white/10"
     >
