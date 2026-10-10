@@ -6,7 +6,8 @@ const BASE =
 const VARIANTS = {
   primary: 'bg-red text-white',
   secondary: 'bg-white text-page',
-  transparent: 'bg-white/10 text-white enabled:hover:bg-muted',
+  transparent:
+    'bg-white/10 text-white enabled:hover:bg-white/20 enabled:hover:backdrop-blur-[22px]',
 };
 
 export default function Button({
