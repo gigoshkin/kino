@@ -32,6 +32,14 @@
 }
 
 @layer base {
+  :root {
+    --page-zoom: calc(1920 / 1728);
+  }
+
+  html {
+    zoom: var(--page-zoom);
+  }
+
   body {
     @apply bg-page font-sans text-white;
   }
