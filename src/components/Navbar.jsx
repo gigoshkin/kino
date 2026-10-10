@@ -1,8 +1,9 @@
 import Button from './Button';
 import Search from './Search';
+import NavbarProfile from './NavbarProfile';
 import { Link } from 'react-router-dom';
 
-export default function Navbar() {
+export default function Navbar({ user }) {
   return (
     <header className="w-full pt-7.5 pb-10 px-15 flex flex-row items-center justify-between bg-[linear-gradient(180deg,#000_-212.35%,rgba(0,0,0,0.51)_32.09%,rgba(0,0,0,0)_93.93%)]">
       <div className="flex flex-row items-center gap-9">
@@ -18,13 +19,17 @@ export default function Navbar() {
           </ul>
         </nav>
       </div>
-      <div className="flex flex-row items-center gap-8">
-        <Search />
-        <div className="flex flex-row items-center gap-3">
-          <Button variant="primary">Sign up</Button>
-          <Button variant="secondary">Log in</Button>
+      {!user && (
+        <div className="flex flex-row items-center gap-8">
+          <Search />
+          <div className="flex flex-row items-center gap-3">
+            <Button variant="primary">Sign up</Button>
+            <Button variant="secondary">Log in</Button>
+          </div>
         </div>
-      </div>
+      )}
+
+      {user && <NavbarProfile user={user} />}
     </header>
   );
 }
