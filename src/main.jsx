@@ -11,6 +11,7 @@ import '@fontsource/archivo/800.css';
 
 import './index.css';
 
+import { AuthProvider } from './context/AuthProvider';
 import App from './App';
 import Home from './pages/Home';
 import Sessions from './pages/Sessions';
@@ -22,16 +23,18 @@ const queryClient = new QueryClient();
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Routes>
-          <Route element={<App />}>
-            <Route index element={<Home />} />
-            <Route path="sessions" element={<Sessions />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="movie/:id" element={<Movie />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route element={<App />}>
+              <Route index element={<Home />} />
+              <Route path="sessions" element={<Sessions />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="movie/:slug" element={<Movie />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
 
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
