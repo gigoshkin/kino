@@ -55,13 +55,27 @@ export default function Sessions() {
   const options = useFilterOptions();
   const days = useMemo(() => getNextDays(7), []);
 
+  const venueSlugs = readList(params, 'venues');
+  const allowedFormats =
+    options.data && venueSlugs.length > 0
+      ? new Set(
+          options.data.venues
+            .filter((venue) => venueSlugs.includes(venue.slug))
+            .flatMap((venue) => venue.formats.map((format) => format.slug)),
+        )
+      : null;
+  const sortFromUrl = params.get('sort');
+  const hasValidSort = !options.data || options.data.sorts.some((sort) => sort.id === sortFromUrl);
+
   const filters = {
-    venues: readList(params, 'venues'),
-    formats: readList(params, 'formats'),
+    venues: venueSlugs,
+    formats: readList(params, 'formats').filter(
+      (slug) => !allowedFormats || allowedFormats.has(slug),
+    ),
     languages: readList(params, 'languages'),
     bands: readList(params, 'bands'),
-    date: params.get('date') || days[0].value,
-    sort: params.get('sort') || 'time_asc',
+    date: days.some((day) => day.value === params.get('date')) ? params.get('date') : days[0].value,
+    sort: sortFromUrl && hasValidSort ? sortFromUrl : 'time_asc',
     page: Number(params.get('page')) || 1,
   };
 
@@ -69,6 +83,7 @@ export default function Sessions() {
     queryKey: ['sessions', filters],
     queryFn: () => getSessions(filters),
     placeholderData: keepPreviousData,
+    enabled: Boolean(options.data),
   });
 
   function update(changes, keepPage = false) {

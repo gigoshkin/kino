@@ -17,9 +17,16 @@ import App from './App';
 import Home from './pages/Home';
 import Sessions from './pages/Sessions';
 import Movie from './pages/Movie';
+import NotFound from './pages/NotFound';
 import Profile from './pages/Profile';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: (count, error) => !(error?.status >= 400 && error?.status < 500) && count < 2,
+    },
+  },
+});
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -33,6 +40,7 @@ createRoot(document.getElementById('root')).render(
                 <Route path="sessions" element={<Sessions />} />
                 <Route path="profile" element={<Profile />} />
                 <Route path="movie/:slug" element={<Movie />} />
+                <Route path="*" element={<NotFound />} />
               </Route>
             </Routes>
           </BookingProvider>

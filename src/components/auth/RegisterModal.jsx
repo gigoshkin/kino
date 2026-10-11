@@ -23,6 +23,7 @@ export default function RegisterModal() {
     handleSubmit,
     setError,
     getValues,
+    trigger,
     formState: { errors, touchedFields, isValid, isSubmitting },
   } = useForm({
     mode: 'onTouched',
@@ -146,6 +147,9 @@ export default function RegisterModal() {
               {...register('password', {
                 required: 'Password is required',
                 minLength: { value: 3, message: 'At least 3 characters' },
+                onChange: () => {
+                  if (getValues('confirmPassword')) trigger('confirmPassword');
+                },
               })}
             />
             <TextField

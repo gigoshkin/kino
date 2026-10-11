@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Avatar from './Avatar';
 import { CheckIcon, ChevronDownIcon, LogOutIcon, TicketIcon, UserIcon } from './icons';
 import { useAuth } from '../context/useAuth';
@@ -28,6 +28,7 @@ function ProfileStatus({ complete }) {
 
 export default function NavbarProfile({ user }) {
   const { logout } = useAuth();
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const rootRef = useRef(null);
 
@@ -79,7 +80,14 @@ export default function NavbarProfile({ user }) {
             </Link>
           </div>
           <div className="h-px w-full bg-white/10" />
-          <button type="button" onClick={logout} className={`${MENU_ITEM} cursor-pointer text-red`}>
+          <button
+            type="button"
+            onClick={() => {
+              navigate('/');
+              logout();
+            }}
+            className={`${MENU_ITEM} cursor-pointer text-red`}
+          >
             <LogOutIcon />
             Log out
           </button>

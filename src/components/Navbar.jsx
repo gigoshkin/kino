@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/useAuth';
 
 export default function Navbar() {
-  const { user, isLoggedIn, openLogin, openRegister } = useAuth();
+  const { user, isLoggedIn, isUserError, refetchUser, openLogin, openRegister } = useAuth();
 
   return (
     <header className="relative z-20 w-full pt-7.5 pb-10 px-15 flex flex-row items-center justify-between bg-[linear-gradient(180deg,#000_-212.35%,rgba(0,0,0,0.51)_32.09%,rgba(0,0,0,0)_93.93%)]">
@@ -25,6 +25,11 @@ export default function Navbar() {
       <div className="flex flex-row items-center gap-8">
         <Search />
         {user && <NavbarProfile user={user} />}
+        {!user && isLoggedIn && isUserError && (
+          <Button variant="transparent" onClick={() => refetchUser()}>
+            Retry
+          </Button>
+        )}
         {!user && !isLoggedIn && (
           <div className="flex flex-row items-center gap-3">
             <Button variant="primary" onClick={openRegister}>

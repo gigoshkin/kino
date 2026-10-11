@@ -16,9 +16,7 @@ export function BookingProvider({ children }) {
       const user = queryClient.getQueryData(['me']);
 
       if (user && !user.profileComplete) {
-        navigate('/profile', {
-          state: { notice: 'Please complete your profile to enable booking.' },
-        });
+        navigate('/profile');
         return;
       }
 
@@ -31,7 +29,7 @@ export function BookingProvider({ children }) {
   }
 
   return (
-    <BookingContext.Provider value={{ session, openBooking, closeBooking }}>
+    <BookingContext.Provider value={{ openBooking }}>
       {children}
       {session && <BookingModal key={session.id} session={session} onClose={closeBooking} />}
     </BookingContext.Provider>

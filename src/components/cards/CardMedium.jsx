@@ -42,7 +42,11 @@ export default function CardMedium({ movie }) {
           className="flex cursor-pointer items-center justify-center gap-1 rounded-full border border-muted px-3 py-1.5 text-label-s font-semibold disabled:cursor-default"
         >
           {movie.isNotified ? <CheckIcon /> : <BellIcon />}
-          {movie.isNotified ? 'Notified' : 'Notify Me'}
+          {movie.isNotified
+            ? 'Notified'
+            : notify.isError && notify.error.status !== 401
+              ? 'Try again'
+              : 'Notify Me'}
         </button>
       </div>
     </div>

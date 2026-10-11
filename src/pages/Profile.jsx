@@ -2,13 +2,14 @@ import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
 import { getTickets } from '../api/tickets';
+import Button from '../components/Button';
 import Skeleton from '../components/Skeleton';
 import ProfileForm from '../components/profile/ProfileForm';
 import TicketsTab from '../components/profile/TicketsTab';
 import { useAuth } from '../context/useAuth';
 
 export default function Profile() {
-  const { user, isLoggedIn, openLogin } = useAuth();
+  const { user, isLoggedIn, isUserError, refetchUser, openLogin } = useAuth();
   const [params, setParams] = useSearchParams();
   const tab = params.get('tab') === 'tickets' ? 'tickets' : 'info';
   const tickets = useQuery({
@@ -57,6 +58,13 @@ export default function Profile() {
         {tab === 'info' ? (
           user ? (
             <ProfileForm user={user} />
+          ) : isUserError ? (
+            <div className="flex flex-col items-start gap-3">
+              <p className="text-body-m text-muted">Something went wrong while loading.</p>
+              <Button variant="transparent" onClick={() => refetchUser()}>
+                Retry
+              </Button>
+            </div>
           ) : (
             <Skeleton className="h-100 w-220 animate-pulse rounded-xl" />
           )

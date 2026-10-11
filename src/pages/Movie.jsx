@@ -83,9 +83,7 @@ function MovieContent({ movie }) {
             )}
           </div>
           <div className="flex w-145 flex-col items-start gap-3.75 py-2.25">
-            <Badge className="px-2.5 py-1.5">
-              {movie.isComingSoon ? 'COMING SOON' : 'NOW PLAYING'}
-            </Badge>
+            <Badge className="px-2.5 py-1.5">NOW PLAYING</Badge>
             <div className="flex flex-col gap-5">
               <div className="flex flex-col gap-3.75">
                 <h1 className="text-display font-extrabold uppercase">{movie.title}</h1>

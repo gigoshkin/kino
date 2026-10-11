@@ -70,9 +70,7 @@ export default function ProfileForm({ user }) {
     onError: (error) => {
       if (error.status === 422 && error.body?.errors) {
         Object.entries(error.body.errors).forEach(([field, messages]) => {
-          setError(field === 'preferredVenueId' ? 'preferredVenueId' : field, {
-            message: messages[0],
-          });
+          setError(field, { message: messages[0] });
         });
       }
     },
@@ -145,6 +143,11 @@ export default function ProfileForm({ user }) {
             </select>
             <ChevronDownIcon className="pointer-events-none absolute right-4" />
           </span>
+          {errors.preferredVenueId && (
+            <span className="text-label-s font-semibold text-red">
+              {errors.preferredVenueId.message}
+            </span>
+          )}
         </label>
 
         <div className="mt-3 flex items-center gap-4">
@@ -152,7 +155,7 @@ export default function ProfileForm({ user }) {
             {save.isPending ? 'Saving...' : 'Save changes'}
           </Button>
           {saved && <p className="text-label font-semibold text-green">Profile saved</p>}
-          {save.isError && save.error.status !== 422 && (
+          {save.isError && save.error.status !== 422 && save.error.status !== 401 && (
             <p className="text-label font-semibold text-red">
               Something went wrong. Please try again.
             </p>
