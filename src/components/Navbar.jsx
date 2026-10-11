@@ -4,8 +4,8 @@ import NavbarProfile from './NavbarProfile';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/useAuth';
 
-export default function Navbar({ user }) {
-  const { openLogin, openRegister } = useAuth();
+export default function Navbar() {
+  const { user, isLoggedIn, openLogin, openRegister } = useAuth();
 
   return (
     <header className="w-full pt-7.5 pb-10 px-15 flex flex-row items-center justify-between bg-[linear-gradient(180deg,#000_-212.35%,rgba(0,0,0,0.51)_32.09%,rgba(0,0,0,0)_93.93%)]">
@@ -22,9 +22,10 @@ export default function Navbar({ user }) {
           </ul>
         </nav>
       </div>
-      {!user && (
-        <div className="flex flex-row items-center gap-8">
-          <Search />
+      <div className="flex flex-row items-center gap-8">
+        <Search />
+        {user && <NavbarProfile user={user} />}
+        {!user && !isLoggedIn && (
           <div className="flex flex-row items-center gap-3">
             <Button variant="primary" onClick={openRegister}>
               Sign up
@@ -33,10 +34,8 @@ export default function Navbar({ user }) {
               Log in
             </Button>
           </div>
-        </div>
-      )}
-
-      {user && <NavbarProfile user={user} />}
+        )}
+      </div>
     </header>
   );
 }

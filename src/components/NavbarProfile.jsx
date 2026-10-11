@@ -1,51 +1,107 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
+import Avatar from './Avatar';
+import { CheckIcon, ChevronDownIcon, LogOutIcon, TicketIcon, UserIcon } from './icons';
+import { useAuth } from '../context/useAuth';
 
-function getInitials(name, maxInitials = 2) {
-  if (!name || typeof name !== 'string') return '';
+const MENU_ITEM =
+  'flex h-10 w-full items-center gap-2 rounded-[10px] py-2.5 pl-5 text-label font-semibold hover:bg-white/10';
 
-  const words = name.trim().split(/\s+/);
-
-  if (words.length === 0 || words[0] === '') return '';
-
-  if (words.length === 1) {
-    return words[0].charAt(0).toUpperCase();
+function ProfileStatus({ complete }) {
+  if (complete) {
+    return (
+      <div className="flex items-center gap-1.5 rounded-[10px] bg-green/10 px-3 py-2.5 text-label font-semibold text-green">
+        Profile Complete
+        <CheckIcon />
+      </div>
+    );
   }
 
-  let initials = [];
-
-  if (maxInitials === 2) {
-    initials = [words[0].charAt(0), words[words.length - 1].charAt(0)];
-  } else {
-    initials = words.slice(0, maxInitials).map((word) => word.charAt(0));
-  }
-
-  return initials.join('').toUpperCase();
+  return (
+    <div className="flex flex-col gap-0.5 rounded-[10px] bg-orange/10 px-3 py-2.5">
+      <p className="text-label font-semibold text-orange">Profile incomplete</p>
+      <p className="text-body-s text-muted">Please complete your profile to enable booking</p>
+    </div>
+  );
 }
 
 export default function NavbarProfile({ user }) {
+  const { logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const rootRef = useRef(null);
+
+  useEffect(() => {
+    if (!isOpen) return undefined;
+
+    function handleMouseDown(e) {
+      if (!rootRef.current.contains(e.target)) setIsOpen(false);
+    }
+
+    function handleKeyDown(e) {
+      if (e.key === 'Escape') setIsOpen(false);
+    }
+
+    document.addEventListener('mousedown', handleMouseDown);
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('mousedown', handleMouseDown);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen]);
+
+  const firstName = (user.fullName || user.username).trim().split(/\s+/)[0];
 
   return (
-    <button
-      className="flex flex-row items-center gap-6"
-      aria-haspopup="menu"
-      aria-expanded={isOpen}
-      onClick={() => setIsOpen((currentState) => !currentState)}
-    >
-      <span className="size-10 relative flex items-center justify-center bg-card rounded-lg">
-        {user.avatar ? (
-          <div className="w-full h-full overflow-hidden rounded-lg">
-            <img src={user.avatar} alt="" className="w-full h-full object-cover" />
+    <div ref={rootRef} className="relative">
+      <button
+        type="button"
+        className="flex cursor-pointer items-center gap-6"
+        aria-haspopup="menu"
+        aria-expanded={isOpen}
+        onClick={() => setIsOpen((open) => !open)}
+      >
+        <span className="flex items-center gap-3">
+          <Avatar user={user} />
+          <span className="text-label font-semibold">{firstName}</span>
+        </span>
+        <ChevronDownIcon className={isOpen ? 'rotate-180' : ''} />
+      </button>
+
+      {isOpen && (
+        <div className="absolute right-0 top-full z-30 mt-1.5 flex w-75.5 flex-col gap-1 rounded-2xl bg-page pb-2.5">
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-2.5 pl-5 pt-5">
+              <Avatar user={user} className="size-10.5" />
+              <div className="flex w-47.5 flex-col gap-0.5">
+                <p className="truncate text-label font-semibold">
+                  {user.fullName || user.username}
+                </p>
+                <p className="truncate text-body-s text-muted">{user.email}</p>
+              </div>
+            </div>
+            <div className="px-5">
+              <ProfileStatus complete={user.profileComplete} />
+            </div>
           </div>
-        ) : (
-          <span className="text-white text-label-s font-semibold">
-            {getInitials(user.fullName)}
-          </span>
-        )}
-        <span
-          className={`absolute w-2 h-2 right-0 bottom-0 rounded-full ring-1 ring-page ${user.profileComplete ? 'bg-green' : 'bg-orange'}`}
-        ></span>
-      </span>
-    </button>
+
+          <div className="flex flex-col gap-0.5 pt-1">
+            <Link to="/profile" onClick={() => setIsOpen(false)} className={MENU_ITEM}>
+              <UserIcon />
+              My Profile
+            </Link>
+            <Link to="/profile?tab=tickets" onClick={() => setIsOpen(false)} className={MENU_ITEM}>
+              <TicketIcon />
+              My Tickets
+            </Link>
+          </div>
+          <div className="h-px w-full bg-white/10" />
+          <button type="button" onClick={logout} className={`${MENU_ITEM} cursor-pointer text-red`}>
+            <LogOutIcon />
+            Log out
+          </button>
+        </div>
+      )}
+    </div>
   );
 }

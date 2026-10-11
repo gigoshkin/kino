@@ -5,11 +5,11 @@ import RegisterModal from './components/auth/RegisterModal';
 import { useAuth } from './context/useAuth';
 
 function App() {
-  const { user, modal } = useAuth();
+  const { modal } = useAuth();
 
   return (
     <div className="min-h-[calc(100vh/var(--page-zoom))]">
-      <Navbar user={user} />
+      <Navbar />
       <Outlet />
       {modal === 'login' && <LoginModal />}
       {modal === 'register' && <RegisterModal />}
