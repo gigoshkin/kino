@@ -38,6 +38,9 @@ export default function NavbarProfile({ user }) {
 
   return (
     <div ref={rootRef} className="relative">
+      {isOpen && (
+        <div onClick={() => setIsOpen(false)} className="fixed inset-0 z-10 bg-black/20" />
+      )}
       <button
         type="button"
         className="flex cursor-pointer items-center gap-6"

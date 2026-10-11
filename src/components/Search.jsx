@@ -6,7 +6,7 @@ import { ClearIcon, MagnifyingGlassIcon } from './icons';
 import SearchResults from './SearchResults';
 
 const PILL_BASE =
-  'flex h-10.25 items-center rounded-full bg-white/10 py-1.5 ' +
+  'relative z-20 flex h-10.25 items-center rounded-full bg-white/10 py-1.5 ' +
   'hover:outline-1 hover:-outline-offset-1 hover:outline-white/10';
 
 const PILL_EMPTY =
@@ -56,6 +56,9 @@ export default function Search() {
   return (
     <form role="search" onSubmit={handleSubmit} onKeyDown={handleKeyDown}>
       <div className="group relative flex h-10.25 w-120 items-center justify-end">
+        <div
+          className={`fixed inset-0 z-10 hidden group-focus-within:block ${trimmed ? 'bg-black/10' : 'bg-black/20'}`}
+        />
         <div className={`${PILL_BASE} ${hasText ? PILL_FILLED : PILL_EMPTY}`}>
           <button
             type="submit"
