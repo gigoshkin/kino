@@ -37,8 +37,8 @@ export default function TicketsTab() {
   const shown = view === 'upcoming' ? upcoming : past;
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex w-fit gap-1 rounded-[14px] bg-card p-1">
+    <div className="flex flex-col gap-5">
+      <div className="flex w-fit rounded-xl bg-card p-1.25">
         {[
           { id: 'upcoming', label: 'Upcoming', count: upcoming.length },
           { id: 'past', label: 'Past', count: past.length },
@@ -47,12 +47,14 @@ export default function TicketsTab() {
             key={item.id}
             type="button"
             onClick={() => setView(item.id)}
-            className={`flex cursor-pointer items-center gap-2 rounded-[10px] px-4 py-2 text-label font-semibold ${
+            className={`flex cursor-pointer items-center gap-2 rounded-[10px] px-3.5 py-1.75 text-label font-semibold ${
               view === item.id ? 'bg-raised' : 'text-muted'
             }`}
           >
             {item.label}
-            <span className="text-label-s text-muted">{item.count}</span>
+            <span className={`text-label-s ${view === item.id ? 'text-white' : 'text-disabled'}`}>
+              {item.count}
+            </span>
           </button>
         ))}
       </div>
@@ -62,7 +64,7 @@ export default function TicketsTab() {
           {view === 'upcoming' ? 'You have no upcoming tickets.' : 'You have no past tickets.'}
         </p>
       ) : (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-5">
           {shown.map((order) => (
             <TicketCard key={order.id} order={order} onRefund={setRefunding} />
           ))}

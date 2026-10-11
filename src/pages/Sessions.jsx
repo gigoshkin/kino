@@ -153,7 +153,7 @@ export default function Sessions() {
   }
 
   return (
-    <div className="px-12.75 pb-34 pt-1.625">
+    <div className="px-12.75 pb-34 pt-[6.5px]">
       <div className="flex flex-col gap-1.5">
         <h1 className="text-h1 font-extrabold">Sessions</h1>
         <p className="text-body-m text-muted">Browse showtimes across all venues</p>

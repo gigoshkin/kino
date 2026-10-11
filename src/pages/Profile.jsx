@@ -28,10 +28,10 @@ export default function Profile() {
   }
 
   return (
-    <div className="px-12.75 pb-20 pt-1.625">
+    <div className="px-12.75 pb-20 pt-[6.5px]">
       <h1 className="text-h1 font-extrabold">My Profile</h1>
 
-      <div className="mt-5.5 flex items-end gap-8.25 border-b border-card">
+      <div className="mt-7 flex items-end gap-8 border-b border-card">
         {[
           { id: 'info', label: 'Personal Information' },
           { id: 'tickets', label: 'My Tickets' },
@@ -40,13 +40,13 @@ export default function Profile() {
             key={item.id}
             type="button"
             onClick={() => setParams(item.id === 'tickets' ? { tab: 'tickets' } : {})}
-            className={`-mb-px flex cursor-pointer items-center gap-2 border-b-2 px-0.5 pb-3 text-label font-semibold ${
+            className={`-mb-px flex cursor-pointer items-center gap-2 border-b-2 px-0.5 pb-3.5 text-label font-semibold ${
               tab === item.id ? 'border-red' : 'border-transparent text-muted'
             }`}
           >
             {item.label}
             {item.id === 'tickets' && upcomingCount > 0 && (
-              <span className="flex size-4.5 items-center justify-center rounded-full bg-red text-[11px] text-white">
+              <span className="rounded-full bg-red px-1.5 py-0.5 text-label-s font-semibold">
                 {upcomingCount}
               </span>
             )}
@@ -54,7 +54,7 @@ export default function Profile() {
         ))}
       </div>
 
-      <div className="mt-10">
+      <div className={tab === 'tickets' ? 'mt-9' : 'mt-10'}>
         {tab === 'info' ? (
           user ? (
             <ProfileForm user={user} />
