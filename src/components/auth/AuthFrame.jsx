@@ -6,7 +6,7 @@ export default function AuthFrame({ title, subtitle, className, children }) {
   const { closeModal } = useAuth();
 
   return (
-    <Modal onClose={closeModal}>
+    <Modal onClose={closeModal} layer="z-60">
       <div
         className={`flex flex-col gap-6 rounded-[28px] border border-raised bg-page p-8 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.2)] ${className}`}
       >

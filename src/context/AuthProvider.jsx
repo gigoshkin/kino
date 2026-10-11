@@ -16,9 +16,20 @@ export function AuthProvider({ children }) {
   const pendingAction = useRef(null);
   const loggingOut = useRef(false);
 
-  const { data: user = null } = useQuery({
+  const {
+    data: user = null,
+    isError: isUserError,
+    refetch: refetchUser,
+  } = useQuery({
     queryKey: ['me'],
-    queryFn: getMe,
+    queryFn: async () => {
+      try {
+        return await getMe();
+      } catch (error) {
+        if (error.status === 401) setHasToken(false);
+        throw error;
+      }
+    },
     enabled: hasToken,
   });
 
@@ -27,6 +38,7 @@ export function AuthProvider({ children }) {
     setHasToken(false);
     queryClient.removeQueries({ queryKey: ['me'] });
     queryClient.removeQueries({ queryKey: ['tickets'] });
+    queryClient.invalidateQueries({ queryKey: ['coming-soon'] });
   }, [queryClient]);
 
   useEffect(() => {
@@ -69,6 +81,7 @@ export function AuthProvider({ children }) {
     setHasToken(true);
     queryClient.setQueryData(['me'], result.user);
     queryClient.invalidateQueries({ queryKey: ['seats'] });
+    queryClient.invalidateQueries({ queryKey: ['coming-soon'] });
     setModal(null);
 
     const action = pendingAction.current;
@@ -95,6 +108,8 @@ export function AuthProvider({ children }) {
   const value = {
     user,
     isLoggedIn: hasToken,
+    isUserError,
+    refetchUser,
     modal,
     openLogin,
     openRegister,

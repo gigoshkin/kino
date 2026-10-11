@@ -33,7 +33,10 @@ function buildUrl(path, params = {}) {
   return url;
 }
 
-export async function request(path, { method = 'GET', params, body, signal } = {}) {
+export async function request(
+  path,
+  { method = 'GET', params, body, signal, silentUnauthorized = false } = {},
+) {
   const headers = { Accept: 'application/json' };
   const token = getToken();
 
@@ -61,7 +64,7 @@ export async function request(path, { method = 'GET', params, body, signal } = {
   if (!response.ok) {
     if (response.status === 401 && token) {
       clearToken();
-      unauthorizedHandler?.();
+      if (!silentUnauthorized) unauthorizedHandler?.();
     }
 
     throw new ApiError(response.status, data);

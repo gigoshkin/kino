@@ -15,7 +15,7 @@ export function logout() {
 }
 
 export async function getMe() {
-  const result = await request('/me');
+  const result = await request('/me', { silentUnauthorized: true });
   return result.data;
 }
 
