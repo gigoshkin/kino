@@ -24,9 +24,9 @@ const queryClient = new QueryClient();
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <BookingProvider>
-          <BrowserRouter>
+      <BrowserRouter>
+        <AuthProvider>
+          <BookingProvider>
             <Routes>
               <Route element={<App />}>
                 <Route index element={<Home />} />
@@ -35,9 +35,9 @@ createRoot(document.getElementById('root')).render(
                 <Route path="movie/:slug" element={<Movie />} />
               </Route>
             </Routes>
-          </BrowserRouter>
-        </BookingProvider>
-      </AuthProvider>
+          </BookingProvider>
+        </AuthProvider>
+      </BrowserRouter>
 
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
