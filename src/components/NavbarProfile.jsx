@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Avatar from './Avatar';
 import { CheckIcon, ChevronDownIcon, LogOutIcon, TicketIcon, UserIcon } from './icons';
@@ -33,6 +33,16 @@ export default function NavbarProfile({ user }) {
   const rootRef = useRef(null);
 
   useDismiss(rootRef, isOpen, () => setIsOpen(false));
+
+  useEffect(() => {
+    if (!isOpen) return undefined;
+
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
 
   const firstName = (user.fullName || user.username).trim().split(/\s+/)[0];
 
