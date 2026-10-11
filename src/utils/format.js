@@ -23,3 +23,17 @@ export function formatShortDate(date) {
 export function formatMoney(amount) {
   return `₾${Number(amount.toFixed(2))}`;
 }
+
+export function formatRefundDeadline(startsAt) {
+  const deadline = new Date(new Date(startsAt).getTime() - 2 * 60 * 60 * 1000);
+  const time = deadline.toLocaleTimeString('en-GB', {
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZone: 'UTC',
+  });
+  const weekday = deadline.toLocaleDateString('en-GB', { weekday: 'short', timeZone: 'UTC' });
+  const day = deadline.toLocaleDateString('en-GB', { day: 'numeric', timeZone: 'UTC' });
+  const month = deadline.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
+
+  return `${time}, ${weekday} ${day} ${month}`;
+}

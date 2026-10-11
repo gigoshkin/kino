@@ -37,9 +37,9 @@ export function AuthProvider({ children }) {
     });
   }, [clearSession]);
 
-  function openLogin() {
+  const openLogin = useCallback(() => {
     setModal('login');
-  }
+  }, []);
 
   function openRegister() {
     setModal('register');
