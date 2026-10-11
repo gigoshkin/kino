@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Avatar from './Avatar';
 import { CheckIcon, ChevronDownIcon, LogOutIcon, TicketIcon, UserIcon } from './icons';
 import { useAuth } from '../context/useAuth';
+import useDismiss from '../hooks/useDismiss';
 
 const MENU_ITEM =
   'flex h-10 w-full items-center gap-2 rounded-[10px] py-2.5 pl-5 text-label font-semibold hover:bg-white/10';
@@ -30,25 +31,7 @@ export default function NavbarProfile({ user }) {
   const [isOpen, setIsOpen] = useState(false);
   const rootRef = useRef(null);
 
-  useEffect(() => {
-    if (!isOpen) return undefined;
-
-    function handleMouseDown(e) {
-      if (!rootRef.current.contains(e.target)) setIsOpen(false);
-    }
-
-    function handleKeyDown(e) {
-      if (e.key === 'Escape') setIsOpen(false);
-    }
-
-    document.addEventListener('mousedown', handleMouseDown);
-    document.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      document.removeEventListener('mousedown', handleMouseDown);
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [isOpen]);
+  useDismiss(rootRef, isOpen, () => setIsOpen(false));
 
   const firstName = (user.fullName || user.username).trim().split(/\s+/)[0];
 
