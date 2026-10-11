@@ -85,7 +85,7 @@ export default function Home() {
           </>
         )}
 
-        <HomeSection title="NOW PLAYING" titleClassName="text-h1">
+        <HomeSection title="NOW PLAYING" titleClassName="text-h1" seeAllTo="/sessions">
           <Row
             query={nowPlaying}
             gap="gap-4.25"

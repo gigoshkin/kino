@@ -1,16 +1,19 @@
 import { Link } from 'react-router-dom';
 import Button from '../Button';
 
-export default function HomeSection({ title, titleClassName, showAll = true, children }) {
+export default function HomeSection({ title, titleClassName, showAll = true, seeAllTo, children }) {
   return (
     <section>
       <div className="flex items-end justify-between">
         <h2 className={`font-extrabold ${titleClassName}`}>{title}</h2>
-        {showAll && (
-          <Link to="/sessions" className="text-label font-semibold text-red">
-            See all
-          </Link>
-        )}
+        {showAll &&
+          (seeAllTo ? (
+            <Link to={seeAllTo} className="text-label font-semibold text-red">
+              See all
+            </Link>
+          ) : (
+            <span className="text-label font-semibold text-red">See all</span>
+          ))}
       </div>
       <div className="mt-6">{children}</div>
     </section>
