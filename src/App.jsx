@@ -1,20 +1,18 @@
 import { Outlet } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import LoginModal from './components/auth/LoginModal';
+import RegisterModal from './components/auth/RegisterModal';
+import { useAuth } from './context/useAuth';
 
 function App() {
-  const user = {
-    fullName: 'Meri Sanikidze',
-    username: 'meri',
-    avatar: '',
-    mobileNumber: '599202860',
-    dateOfBirth: '2026-10-10',
-    age: 18,
-    profileComplete: false,
-  };
+  const { user, modal } = useAuth();
+
   return (
     <div className="min-h-[calc(100vh/var(--page-zoom))]">
       <Navbar user={user} />
       <Outlet />
+      {modal === 'login' && <LoginModal />}
+      {modal === 'register' && <RegisterModal />}
     </div>
   );
 }
