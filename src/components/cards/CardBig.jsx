@@ -19,7 +19,7 @@ export default function CardBig({ movie }) {
         <div>
           <Badge>{movie.ageRating.code}</Badge>
           <div className="max-h-0 overflow-hidden opacity-0 transition-[max-height,opacity] duration-300 ease-linear group-hover:max-h-17 group-hover:opacity-100">
-            <p className="line-clamp-3 pr-5 pt-3 text-body-m text-muted">{movie.synopsis}</p>
+            <p className="line-clamp-3 w-99.25 pt-3 text-body-m text-muted">{movie.synopsis}</p>
           </div>
         </div>
       </div>
