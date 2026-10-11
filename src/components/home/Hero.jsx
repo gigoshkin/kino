@@ -88,7 +88,7 @@ export default function Hero({ movies }) {
             >
               {i < index && <span className="absolute inset-0 bg-red" />}
               {i === index && (
-                <span className="absolute inset-0 origin-left animate-progress bg-red" />
+                <span className="absolute inset-y-0 left-0 animate-progress bg-red" />
               )}
             </button>
           ))}
