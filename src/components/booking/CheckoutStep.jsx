@@ -29,11 +29,20 @@ function summarizeTickets(seats) {
     .join(', ');
 }
 
-export default function CheckoutStep({ session, hold, user, notice, onBack, onPaid, onFailed }) {
+export default function CheckoutStep({
+  session,
+  hold,
+  user,
+  notice,
+  onBack,
+  onPaid,
+  onBusy,
+  onFailed,
+}) {
   const defaultValues = {
-    fullName: user.fullName ?? '',
-    email: user.email ?? '',
-    mobileNumber: user.mobileNumber ?? '',
+    fullName: user?.fullName ?? '',
+    email: user?.email ?? '',
+    mobileNumber: user?.mobileNumber ?? '',
     cardNumber: '',
     expiry: '',
     cvv: '',
@@ -49,6 +58,8 @@ export default function CheckoutStep({ session, hold, user, notice, onBack, onPa
 
   const pay = useAuthedMutation({
     mutationFn: (values) => createOrder({ holdId: hold.holdId, ...values }),
+    onMutate: () => onBusy(true),
+    onSettled: () => onBusy(false),
     onSuccess: onPaid,
     onError: (error) => {
       if (error.status === 422 && error.body?.errors) {

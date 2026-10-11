@@ -5,7 +5,19 @@ export const initialState = {
   order: null,
   notice: null,
   soldCodes: [],
+  paying: false,
 };
+
+export function createInitialState({ map, max }) {
+  const mine = map.sections
+    .flatMap((section) => section.rows)
+    .flatMap((row) => row.seats)
+    .filter((seat) => seat.isMine)
+    .slice(0, max)
+    .map((seat) => ({ seatId: seat.id, code: seat.code, ticketType: 'adult' }));
+
+  return { ...initialState, selected: mine };
+}
 
 export function bookingReducer(state, action) {
   switch (action.type) {
@@ -71,6 +83,8 @@ export function bookingReducer(state, action) {
       return { ...initialState, notice: { type: 'warning', text: action.message } };
     case 'notice':
       return { ...state, notice: action.notice };
+    case 'paying':
+      return { ...state, paying: action.value };
     case 'maps-refreshed':
       return { ...state, soldCodes: [] };
     case 'confirmed':

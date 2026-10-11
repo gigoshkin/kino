@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from 'react';
+import { useEffect, useReducer, useRef } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { createHold, getSeats, getSession, releaseHold } from '../../api/sessions';
 import { useAuth } from '../../context/useAuth';
@@ -10,7 +10,7 @@ import Button from '../Button';
 import Modal from '../Modal';
 import Skeleton from '../Skeleton';
 import { CloseIcon } from '../icons';
-import { bookingReducer, initialState } from './bookingReducer';
+import { bookingReducer, createInitialState } from './bookingReducer';
 import CheckoutStep from './CheckoutStep';
 import Confirmation from './Confirmation';
 import SeatsStep from './SeatsStep';
@@ -24,28 +24,44 @@ function formatTime(seconds) {
 function BookingContent({ session, map, options, onClose, refetchMap }) {
   const queryClient = useQueryClient();
   const { user } = useAuth();
-  const [state, dispatch] = useReducer(bookingReducer, initialState);
+  const [state, dispatch] = useReducer(
+    bookingReducer,
+    { map, max: options.maxSeatsPerOrder },
+    createInitialState,
+  );
+  const closedRef = useRef(false);
   const seconds = useCountdown(state.step === 'checkout' ? state.hold?.expiresAt : null);
 
+  function refreshMap() {
+    refetchMap().then(() => dispatch({ type: 'maps-refreshed' }));
+  }
+
   function failWith(error) {
+    if (error.status === 401) return;
+
     if (error.status === 409) {
       dispatch({
         type: 'conflict',
         codes: error.body?.contested ?? [],
         message: error.body?.message ?? 'Some seats were just taken.',
       });
-      refetchMap();
+      refreshMap();
       return;
     }
 
-    if (error.status === 422 && error.body?.message && !error.body?.errors) {
+    if (error.status === 422 && error.body?.message) {
       if (error.body.message === EXPIRED_MESSAGE) {
         dispatch({ type: 'expired', message: error.body.message });
-        refetchMap();
+        refreshMap();
         return;
       }
 
-      dispatch({ type: 'notice', notice: { type: 'error', text: error.body.message } });
+      const fieldError = Object.values(error.body.errors ?? {}).flat()[0];
+
+      dispatch({
+        type: 'notice',
+        notice: { type: 'error', text: fieldError ?? error.body.message },
+      });
       return;
     }
 
@@ -61,7 +77,14 @@ function BookingContent({ session, map, options, onClose, refetchMap }) {
         session.id,
         state.selected.map(({ seatId, ticketType }) => ({ seatId, ticketType })),
       ),
-    onSuccess: (data) => dispatch({ type: 'held', hold: data }),
+    onSuccess: (data) => {
+      if (closedRef.current) {
+        releaseHold(data.holdId).catch(() => {});
+        return;
+      }
+
+      dispatch({ type: 'held', hold: data });
+    },
     onError: failWith,
   });
 
@@ -73,6 +96,10 @@ function BookingContent({ session, map, options, onClose, refetchMap }) {
   }, [seconds, refetchMap]);
 
   function close() {
+    if (state.paying) return;
+
+    closedRef.current = true;
+
     if (state.hold && state.step !== 'confirmed') {
       releaseHold(state.hold.holdId).catch(() => {});
     }
@@ -133,6 +160,7 @@ function BookingContent({ session, map, options, onClose, refetchMap }) {
                   notice={state.notice}
                   onBack={() => dispatch({ type: 'back' })}
                   onPaid={handlePaid}
+                  onBusy={(value) => dispatch({ type: 'paying', value })}
                   onFailed={failWith}
                 />
               )}
