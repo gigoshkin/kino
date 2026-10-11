@@ -47,7 +47,7 @@ export default function NavbarProfile({ user }) {
       >
         <span className="flex items-center gap-3">
           <Avatar user={user} />
-          <span className="text-label font-semibold">{firstName}</span>
+          <span className="max-w-30 truncate text-label font-semibold">{firstName}</span>
         </span>
         <ChevronDownIcon className={isOpen ? 'rotate-180' : ''} />
       </button>
