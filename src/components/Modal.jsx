@@ -17,7 +17,7 @@ export default function Modal({ onClose, children }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/40 backdrop-blur-[10px]"
+      className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-[rgba(36,36,36,0.3)] backdrop-blur-[5px]"
       onMouseDown={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
