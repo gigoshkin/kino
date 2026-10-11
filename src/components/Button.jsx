@@ -11,15 +11,18 @@ const VARIANTS = {
 };
 
 export default function Button({
+  as: Component = 'button',
   children,
   variant = 'primary',
   type = 'button',
   className = '',
   ...props
 }) {
+  const typeProps = Component === 'button' ? { type } : {};
+
   return (
-    <button type={type} {...props} className={`${BASE} ${VARIANTS[variant]} ${className}`}>
+    <Component {...typeProps} {...props} className={`${BASE} ${VARIANTS[variant]} ${className}`}>
       {children}
-    </button>
+    </Component>
   );
 }

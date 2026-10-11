@@ -13,3 +13,4 @@ export { default as TicketIcon } from './TicketIcon';
 export { default as TimerIcon } from './TimerIcon';
 export { default as UserIcon } from './UserIcon';
 export { default as UploadIcon } from './UploadIcon';
+export { default as ArrowLeftIcon } from './ArrowLeftIcon';
