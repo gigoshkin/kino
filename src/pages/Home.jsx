@@ -66,7 +66,7 @@ export default function Home() {
   const recent = getRecentlyViewed();
 
   return (
-    <div className="pb-4">
+    <div className="pb-9">
       <HeroArea query={featured} />
 
       <div className="px-17.5 pt-8">

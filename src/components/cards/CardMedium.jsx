@@ -24,14 +24,14 @@ export default function CardMedium({ movie }) {
           />
         )}
       </div>
-      <div className="flex h-33 shrink-0 flex-col items-start justify-between pr-15">
+      <div className="flex h-33 w-48 shrink-0 flex-col items-start justify-between pr-15">
         <div className="flex flex-col items-start gap-1.75">
           <p className="text-label-s font-semibold uppercase text-red">
             In cinemas {formatDay(movie.releaseDate)}
           </p>
-          <div className="flex flex-col gap-1.75">
-            <p className="text-label-s font-semibold whitespace-nowrap">{movie.title}</p>
-            <p className="text-body-s whitespace-nowrap text-muted">{formatMeta(movie)}</p>
+          <div className="flex w-full flex-col gap-1.75">
+            <p className="truncate text-label-s font-semibold">{movie.title}</p>
+            <p className="truncate text-body-s text-muted">{formatMeta(movie)}</p>
           </div>
           <Badge>{movie.ageRating.code}</Badge>
         </div>
