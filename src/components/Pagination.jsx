@@ -27,7 +27,7 @@ export default function Pagination({ page, lastPage, onChange }) {
         aria-label="Previous page"
         disabled={page === 1}
         onClick={() => onChange(page - 1)}
-        className={`${BUTTON} cursor-pointer bg-card disabled:cursor-not-allowed disabled:opacity-40`}
+        className={`${BUTTON} cursor-pointer bg-card enabled:hover:bg-raised disabled:cursor-not-allowed disabled:opacity-40`}
       >
         <ArrowLeftIcon width={16} height={16} />
       </button>
@@ -41,7 +41,7 @@ export default function Pagination({ page, lastPage, onChange }) {
             key={item}
             type="button"
             onClick={() => onChange(item)}
-            className={`${BUTTON} cursor-pointer ${item === page ? 'bg-red' : 'text-muted'}`}
+            className={`${BUTTON} cursor-pointer ${item === page ? 'bg-red' : 'text-muted hover:bg-raised'}`}
           >
             {item}
           </button>
@@ -52,7 +52,7 @@ export default function Pagination({ page, lastPage, onChange }) {
         aria-label="Next page"
         disabled={page === lastPage}
         onClick={() => onChange(page + 1)}
-        className={`${BUTTON} cursor-pointer bg-card disabled:cursor-not-allowed disabled:opacity-40`}
+        className={`${BUTTON} cursor-pointer bg-card enabled:hover:bg-raised disabled:cursor-not-allowed disabled:opacity-40`}
       >
         <ArrowLeftIcon width={16} height={16} className="rotate-180" />
       </button>

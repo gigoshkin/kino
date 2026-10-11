@@ -6,7 +6,7 @@ export default function CardSmall({ movie }) {
   return (
     <Link
       to={`/movie/${movie.slug}`}
-      className="flex w-82.25 shrink-0 items-center justify-center gap-2.5 rounded-2xl bg-card p-2.25"
+      className="flex w-82.25 shrink-0 items-center justify-center gap-2.5 rounded-2xl bg-card p-2.25 transition-shadow duration-300 ease-out hover:shadow-[0_4px_24px_rgba(0,0,0,0.2)]"
     >
       <div className="h-16.75 min-w-0 flex-1 overflow-clip rounded-lg bg-raised">
         {(movie.backdropUrl || movie.posterUrl) && (

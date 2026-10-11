@@ -98,7 +98,7 @@ export default function Hero({ movies }) {
             type="button"
             aria-label="Previous"
             onClick={() => goTo(index - 1)}
-            className="flex size-13.5 cursor-pointer items-center justify-center rounded-full bg-page/20"
+            className="flex size-13.5 cursor-pointer items-center justify-center rounded-full bg-page/20 transition-[background-color,box-shadow] duration-700 ease-out hover:bg-page hover:shadow-[0_2px_8px_rgba(0,0,0,0.2)]"
           >
             <ArrowLeftIcon />
           </button>
@@ -106,7 +106,7 @@ export default function Hero({ movies }) {
             type="button"
             aria-label="Next"
             onClick={() => goTo(index + 1)}
-            className="flex size-13.5 cursor-pointer items-center justify-center rounded-full bg-page/20"
+            className="flex size-13.5 cursor-pointer items-center justify-center rounded-full bg-page/20 transition-[background-color,box-shadow] duration-700 ease-out hover:bg-page hover:shadow-[0_2px_8px_rgba(0,0,0,0.2)]"
           >
             <ArrowLeftIcon className="rotate-180" />
           </button>

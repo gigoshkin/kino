@@ -18,8 +18,10 @@ export default function TextField({
       <label className="flex flex-col gap-2.5 text-label-s font-semibold">
         <span className={hasError ? 'text-red' : 'text-white'}>{label}</span>
         <span
-          className={`flex h-10 items-center justify-between gap-1.5 overflow-clip rounded-xl border bg-card px-4 ${
-            hasError ? 'border-red text-red' : 'border-transparent text-white'
+          className={`flex h-10 items-center justify-between gap-1.5 overflow-clip rounded-xl border bg-card px-4 transition-colors duration-300 ease-out ${
+            hasError
+              ? 'border-red text-red'
+              : 'border-transparent text-white hover:border-disabled hover:not-focus-within:bg-raised focus-within:border-disabled'
           }`}
         >
           <input

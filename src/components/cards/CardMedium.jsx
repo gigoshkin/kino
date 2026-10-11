@@ -14,7 +14,7 @@ export default function CardMedium({ movie }) {
   });
 
   return (
-    <div className="flex h-40 w-117.5 shrink-0 items-center gap-3.75 rounded-[20px] bg-card p-3 shadow-[0_1px_2px_rgba(0,0,0,0.2)]">
+    <div className="flex h-40 w-117.5 shrink-0 items-center gap-3.75 rounded-[20px] bg-card p-3 shadow-[0_1px_4px_rgba(0,0,0,0.2)] hover:shadow-[0_4px_24px_rgba(0,0,0,0.2)] hover:ring-1 hover:ring-inset hover:ring-raised">
       <div className="h-full min-w-0 flex-1 overflow-clip rounded-[14px] bg-raised">
         {(movie.backdropUrl || movie.posterUrl) && (
           <img
@@ -39,11 +39,13 @@ export default function CardMedium({ movie }) {
           type="button"
           disabled={notify.isPending || movie.isNotified}
           onClick={() => notify.run()}
-          className="flex cursor-pointer items-center justify-center gap-1 rounded-full border border-muted px-3 py-1.5 text-label-s font-semibold disabled:cursor-default"
+          className={`flex cursor-pointer items-center justify-center gap-1 rounded-full px-3 py-1.5 text-label-s font-semibold ring-1 ring-inset transition-colors duration-300 ease-out disabled:cursor-default ${
+            movie.isNotified ? 'ring-transparent' : 'ring-muted hover:bg-white/10'
+          }`}
         >
           {movie.isNotified ? <CheckIcon /> : <BellIcon />}
           {movie.isNotified
-            ? 'Notified'
+            ? 'Reminder set'
             : notify.isError && notify.error.status !== 401
               ? 'Try again'
               : 'Notify Me'}

@@ -6,7 +6,7 @@ import { useAuth } from '../context/useAuth';
 import useDismiss from '../hooks/useDismiss';
 
 const MENU_ITEM =
-  'flex h-10 w-full items-center gap-2 rounded-[10px] py-2.5 pl-5 text-label font-semibold hover:bg-white/10';
+  'flex h-10 w-full items-center gap-2 rounded-[10px] py-2.5 pl-5 text-label font-semibold hover:rounded-none hover:bg-card';
 
 function ProfileStatus({ complete }) {
   if (complete) {
