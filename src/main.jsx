@@ -12,6 +12,7 @@ import '@fontsource/archivo/800.css';
 import './index.css';
 
 import { AuthProvider } from './context/AuthProvider';
+import { BookingProvider } from './context/BookingProvider';
 import App from './App';
 import Home from './pages/Home';
 import Sessions from './pages/Sessions';
@@ -24,16 +25,18 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route element={<App />}>
-              <Route index element={<Home />} />
-              <Route path="sessions" element={<Sessions />} />
-              <Route path="profile" element={<Profile />} />
-              <Route path="movie/:slug" element={<Movie />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
+        <BookingProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route element={<App />}>
+                <Route index element={<Home />} />
+                <Route path="sessions" element={<Sessions />} />
+                <Route path="profile" element={<Profile />} />
+                <Route path="movie/:slug" element={<Movie />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </BookingProvider>
       </AuthProvider>
 
       <ReactQueryDevtools initialIsOpen={false} />
