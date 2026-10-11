@@ -35,6 +35,7 @@ export default function Hero({ movies }) {
           }`}
         />
       ))}
+      <div className="absolute inset-0 bg-black/20" />
       <div className="absolute inset-0 bg-linear-to-l from-black/8 to-black/80" />
 
       <div
